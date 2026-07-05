@@ -431,7 +431,7 @@ function homeCard(){
   const grid = el('div','grid');
   TEAMS.forEach((t,i)=>{
     const chip = el('div','chip');
-    chip.innerHTML = `<img src="${flag(t.iso,'w80')}" alt=""><div class="c">${t.code}</div><div class="g">Grp ${t.group}</div>`;
+    chip.innerHTML = `<img loading="lazy" decoding="async" src="${flag(t.iso,'w80')}" alt=""><div class="c">${t.code}</div><div class="g">Grp ${t.group}</div>`;
     chip.addEventListener('click', ()=>go(i+1,0));
     grid.appendChild(chip);
   });
@@ -446,7 +446,7 @@ function mainCard(t,i){
   const body = el('div','body');
   const sc = el('div','scroll'); sc.style.paddingTop='26px';
   const fw = el('div','flagwrap');
-  fw.innerHTML = `<img src="${flag(t.iso,'w320')}" alt="">
+  fw.innerHTML = `<img loading="lazy" decoding="async" src="${flag(t.iso,'w320')}" alt="">
     <div class="tname">${t.name}</div>
     <div class="confed">${t.confed} · Group ${t.group}</div>`;
   const badge = el('span','badge');
@@ -481,7 +481,7 @@ function groupTableEl(t){
   t.groupTable.forEach(r=>{
     const row = el('div','gtr'+(r.qual?' qual':'')+(r.code===t.code?' me':''));
     row.innerHTML = `<div class="q"></div><div class="pos">${r.pos}</div>
-      <div class="tm"><img src="${flag(r.iso,'w40')}" alt=""><span>${r.code}</span></div>
+      <div class="tm"><img loading="lazy" decoding="async" src="${flag(r.iso,'w40')}" alt=""><span>${r.code}</span></div>
       <div class="n">${r.w}</div><div class="n">${r.d}</div><div class="n">${r.l}</div>
       <div class="gd">${(r.gd>0?'+':'')+r.gd}</div><div class="pts">${r.pts}</div>`;
     gt.appendChild(row);
@@ -502,7 +502,7 @@ function matchList(t, onPick){
     row.appendChild(bar);
     row.appendChild(el('div','mstage', m.stage));
     const opp = el('div','opp');
-    opp.innerHTML = `<img src="${flag(m.oppIso,'w40')}" alt=""><span>${m.oppName}</span>`;
+    opp.innerHTML = `<img loading="lazy" decoding="async" src="${flag(m.oppIso,'w40')}" alt=""><span>${m.oppName}</span>`;
     row.appendChild(opp);
     const sc2 = el('div','sc'); sc2.style.color = m.gf==null?'var(--sub)':col;
     sc2.textContent = m.gf==null ? '—' : `${m.gf}–${m.ga}`;
@@ -542,9 +542,9 @@ function matchCard(t, m, i){
 
   const head = el('div','mhead');
   head.innerHTML = `
-    <div class="mside"><img src="${flag(t.iso,'w160')}" alt=""><div class="c">${t.code}</div></div>
+    <div class="mside"><img loading="lazy" decoding="async" src="${flag(t.iso,'w160')}" alt=""><div class="c">${t.code}</div></div>
     <div class="mscore" style="color:${col}">${m.gf}<span>–</span>${m.ga}</div>
-    <div class="mside"><img src="${flag(m.oppIso,'w160')}" alt=""><div class="c">${m.opp}</div></div>`;
+    <div class="mside"><img loading="lazy" decoding="async" src="${flag(m.oppIso,'w160')}" alt=""><div class="c">${m.opp}</div></div>`;
   sc.appendChild(head);
   if(m.pens) sc.appendChild(el('div','mpens','Penalties '+m.pens));
   sc.appendChild(el('div','mmeta', [m.round, m.date, m.venue].filter(Boolean).join('  ·  ')));
@@ -579,7 +579,7 @@ function matchCard(t, m, i){
 function avatar(pl){
   const w = el('div','pav'); w.textContent = pl.num!=null?pl.num:'–';
   if(pl.pic){
-    const img = el('img'); img.src = pl.pic; img.alt='';
+    const img = el('img'); img.loading='lazy'; img.decoding='async'; img.src = pl.pic; img.alt='';
     img.onerror = ()=>img.remove();
     w.appendChild(img);
   }
@@ -643,7 +643,7 @@ function playerCard(t, pl, i){
 
   const head = el('div','flagwrap');
   const ph = el('div','pwrap');
-  const img = el('img','pphoto'); img.src = pl.pic||''; img.alt='';
+  const img = el('img','pphoto'); img.loading='lazy'; img.decoding='async'; img.src = pl.pic||''; img.alt='';
   img.onerror = ()=>{ img.style.display='none'; ph.querySelector('.pph-fb').style.display='flex'; };
   const fb = el('div','pph-fb', pl.num!=null?pl.num:'–');
   ph.appendChild(img); ph.appendChild(fb);
@@ -651,7 +651,7 @@ function playerCard(t, pl, i){
 
   head.appendChild(el('div','tname', pl.name));
   const meta = el('div','pmeta');
-  meta.innerHTML = `<img src="${flag(t.iso,'w40')}" alt=""><span>${t.name}</span>
+  meta.innerHTML = `<img loading="lazy" decoding="async" src="${flag(t.iso,'w40')}" alt=""><span>${t.name}</span>
     <b>#${pl.num!=null?pl.num:'–'}</b><b>${POS[pl.pos]||''}</b>`;
   head.appendChild(meta);
 
@@ -690,13 +690,16 @@ function playerCard(t, pl, i){
 const ordinal = n => n+({1:'st',2:'nd',3:'rd'}[n]||'th');
 
 /* ---------------- navigation / geometry ---------------- */
+// VW/VH are frozen at layout time so the board geometry (card sizes + transform)
+// stays consistent and doesn't thrash when the mobile URL bar shows/hides.
+let VW = 0, VH = 0;
 function sizeBoard(){
-  const W = window.innerWidth, H = window.innerHeight;
-  document.documentElement.style.setProperty('--W', W+'px');
-  document.documentElement.style.setProperty('--H', H+'px');
-  board.style.width = `${W*colCount()}px`;
+  VW = window.innerWidth; VH = window.innerHeight;
+  document.documentElement.style.setProperty('--W', VW+'px');
+  document.documentElement.style.setProperty('--H', VH+'px');
+  board.style.width = `${VW*colCount()}px`;
 }
-function baseXY(col,row){ return { x:-col*window.innerWidth, y:-(row+1)*window.innerHeight }; }
+function baseXY(col,row){ return { x:-col*VW, y:-(row+1)*VH }; }
 function setT(x,y){ board.style.transform = `translate3d(${x}px,${y}px,0)`; }
 function place(anim=true){
   board.style.transition = anim ? 'transform .34s cubic-bezier(.22,.75,.25,1)' : 'none';
@@ -828,7 +831,7 @@ stage.addEventListener('touchend', e=>{
   if(!axis) return;
   const t = e.changedTouches[0];
   const dx = t.clientX-start.x, dy = t.clientY-start.y;
-  const TX = window.innerWidth*0.22, TY = window.innerHeight*0.16;
+  const TX = VW*0.22, TY = VH*0.16;
   if(axis==='x'){
     if(dx<=-TX) nav('right');
     else if(dx>=TX) nav('left');
@@ -848,7 +851,17 @@ window.addEventListener('keydown', e=>{
   else if(e.key==='Home'||e.key==='Escape') goHome();
 });
 
-window.addEventListener('resize', ()=>{ sizeBoard(); place(false); });
+// Only re-layout on a real viewport change (orientation / large resize), not the
+// constant small height changes the mobile URL bar produces — those caused the
+// board to re-lay-out repeatedly (looked like the page "constantly refreshing").
+let rzTimer;
+window.addEventListener('resize', ()=>{
+  clearTimeout(rzTimer);
+  rzTimer = setTimeout(()=>{
+    if(window.innerWidth===VW && Math.abs(window.innerHeight-VH)<110) return;
+    sizeBoard(); place(false);
+  }, 150);
+});
 
 load().catch(err=>{
   document.getElementById('loader').innerHTML = 'Failed to load data<br><small style="opacity:.6">'+err+'</small>';
