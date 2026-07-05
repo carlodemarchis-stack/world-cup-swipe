@@ -83,12 +83,54 @@
   .stat:last-child{border-right:none;}
   .stat .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; line-height:1;}
   .stat .k{font-size:9px; color:var(--head); letter-spacing:1.4px; text-transform:uppercase; margin-top:6px;}
-  .hint{display:flex; justify-content:center; gap:10px; margin-top:20px;}
-  .hint .h{display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:20px;
-    border:1px solid var(--line); background:var(--card); cursor:pointer;
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.8px;
+  /* ---- team dashboard (main card) ---- */
+  .xtab{position:absolute; left:0; right:0; z-index:2; height:42px; display:flex; align-items:center;
+    justify-content:space-between; padding:0 24px; cursor:pointer;
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:1.4px;
     text-transform:uppercase; color:var(--gold);}
-  .hint .h b{color:var(--sub); font-weight:600;}
+  .xtab b{color:var(--sub); font-weight:600;}
+  .xtab.top{top:0; background:linear-gradient(to bottom, rgba(214,176,74,.14), transparent);}
+  .xtab.bot{bottom:0; padding-bottom:env(safe-area-inset-bottom);
+    background:linear-gradient(to top, rgba(214,176,74,.14), transparent);}
+  .scroll.tdash{padding:52px 18px 58px;}
+  .thero{display:flex; flex-direction:column; align-items:center; text-align:center;}
+  .crest.big{width:104px; height:104px;}
+  .thero .tname{font-size:32px; margin:14px 0 2px;}
+  .thero .confed{font-size:12px;}
+  .tpills{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px;}
+  .tpill{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.6px;
+    text-transform:uppercase; padding:5px 13px; border-radius:20px; color:#fff;}
+  .tpill.ok{background:var(--win);} .tpill.out{background:var(--loss);}
+  .tpill.next{background:transparent; color:var(--gold); border:1px solid var(--gold-line);}
+  .kband{display:flex; margin-top:22px; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:var(--card); box-shadow:0 3px 12px rgba(60,50,30,.07);}
+  .kbig{flex:1; text-align:center; padding:16px 4px; border-right:1px solid var(--line);}
+  .kbig:last-child{border-right:none;}
+  .kbig .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; line-height:1; color:var(--text);}
+  .kbig .k{font-size:9px; color:var(--head); letter-spacing:1.2px; text-transform:uppercase; margin-top:6px;}
+  .kgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
+  .ktile{border:1px solid var(--line); border-radius:14px; background:var(--card); padding:14px 14px;
+    display:flex; flex-direction:column; box-shadow:0 2px 8px rgba(60,50,30,.05);}
+  .ktile .ic{font-size:15px; line-height:1;}
+  .ktile .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; line-height:1; margin-top:8px;}
+  .ktile .k{font-size:10px; color:var(--head); letter-spacing:.8px; text-transform:uppercase; margin-top:4px;}
+  .kform{margin-top:18px;}
+  .klabel{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:1.4px; text-transform:uppercase;
+    font-size:11px; color:var(--head); margin-bottom:8px;}
+  .fdots{display:flex; gap:6px; flex-wrap:wrap;}
+  .fdot{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; color:#fff;}
+  .fdot.w{background:var(--win);} .fdot.l{background:var(--loss);} .fdot.d{background:var(--draw);}
+  .ktop{display:flex; align-items:center; gap:12px; margin-top:18px; padding:12px 14px; border-radius:14px;
+    border:1px solid var(--gold-line); background:rgba(214,176,74,.09); box-shadow:0 2px 8px rgba(60,50,30,.05);}
+  .ktop .pav{width:44px; height:44px;}
+  .ktop .tinfo{flex:1; min-width:0;}
+  .ktop .tk{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    font-size:10px; color:var(--gold);}
+  .ktop .tn{font-weight:700; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ktop .tg{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; line-height:1; color:var(--gold);
+    display:flex; flex-direction:column; align-items:center;}
+  .ktop .tg small{font-size:9px; color:var(--head); letter-spacing:.6px; text-transform:uppercase; font-weight:600;}
 
   /* ---- group table ---- */
   .gt{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:18px;
@@ -377,6 +419,24 @@ async function load(){
           km.slot.winner===code?'W':'L', km.slot));
       });
     });
+    // next (upcoming) match for teams still alive: first unplayed slot on their path
+    TEAMS.forEach(t=>{
+      if(!koSet.has(t.code)) return;
+      if(t.matches.some(m=>m.stage!=='GRP' && m.res==='L')) return;   // eliminated
+      const idx = data.teams.findIndex(x=>x.code===t.code); if(idx<0) return;
+      const side = idx<16?'R':'L', i = idx%16;
+      for(let L=1; L<=4; L++){
+        const k = Math.floor(i / Math.pow(2,L));
+        const slot = L===1 ? data.r32[side+':1:'+k] : data.schedule[side+':'+L+':'+k];
+        if(!slot || !slot.score){
+          const [a,b] = participants(side,L,k);
+          t.next = { stage:KO[L][0], round:KO[L][1], opp:(a===t.code?b:a)||null, date:(slot||{}).date };
+          break;
+        }
+      }
+      if(!t.next && !(data.final && data.final.score))
+        t.next = { stage:'F', round:'Final', opp: winnerOfNode(side==='R'?'L':'R',4,0)||null };
+    });
   }
 
   // tournament progress rank (like the bracket's PLAYERS tab): 99 = still in,
@@ -483,34 +543,72 @@ function homeCard(){
   return card;
 }
 
-function mainCard(t,i){
+function mainCard(t){
   const card = el('div','card main');
+  const inTour = t.rank===99;
+  const rc = inTour ? 'var(--win)' : 'var(--loss)';
   const body = el('div','body');
-  const sc = el('div','scroll'); sc.style.paddingTop='26px';
-  const fw = el('div','flagwrap');
-  fw.innerHTML = `<img loading="lazy" decoding="async" src="${flag(t.iso,'w320')}" alt="">
+
+  // matches (top) / squad (bottom) affordances
+  const topTab = el('div','xtab top'); topTab.innerHTML = `<span>Matches</span><b>${t.matches.length}</b>`;
+  topTab.addEventListener('click', ()=>go(POSN.col,-1));
+  const botTab = el('div','xtab bot'); botTab.innerHTML = `<span>Squad</span><b>${t.squad.length}</b>`;
+  botTab.addEventListener('click', ()=>go(POSN.col,1));
+
+  const sc = el('div','scroll tdash');
+
+  const hero = el('div','thero');
+  hero.innerHTML = `<div class="crest big" style="--rc:${rc}"><div class="coin"><img loading="lazy" decoding="async" src="${flag(t.iso,'w320')}" alt=""></div></div>
     <div class="tname">${t.name}</div>
     <div class="confed">${t.confed} · Group ${t.group}</div>`;
-  const badge = el('span','badge');
-  badge.style.background = t.through ? 'var(--win)' : 'var(--loss)';
-  badge.textContent = t.through ? `Qualified · ${ordinal(t.finish)} in group` : `${ordinal(t.finish)} in group`;
-  fw.appendChild(badge);
-  sc.appendChild(fw);
+  sc.appendChild(hero);
 
-  const sr = el('div','statrow');
-  [['Pts',t.pts],['W-D-L',`${t.w}-${t.d}-${t.l}`],['GF',t.gf],['GA',t.ga],['GD',(t.gd>0?'+':'')+t.gd]]
-    .forEach(([k,v])=>{ const st=el('div','stat'); st.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; sr.appendChild(st); });
-  sc.appendChild(sr);
+  const pills = el('div','tpills');
+  pills.appendChild(el('span','tpill '+(t.through?'ok':'out'), (t.through?'Qualified · ':'')+ordinal(t.finish)+' in group'));
+  if(inTour && t.next) pills.appendChild(el('span','tpill next', `Next · ${t.next.stage} v ${t.next.opp||'TBD'}`));
+  else if(!inTour) pills.appendChild(el('span','tpill out', RANK_LABEL[t.rank]||''));
+  sc.appendChild(pills);
 
-  const hint = el('div','hint');
-  const up = el('div','h', `&#9650; Matches <b>${t.matches.length}</b>`);
-  up.addEventListener('click', ()=>go(POSN.col,-1));
-  const dn = el('div','h', `&#9660; Squad <b>${t.squad.length}</b>`);
-  dn.addEventListener('click', ()=>go(POSN.col,1));
-  hint.appendChild(up); hint.appendChild(dn);
-  sc.appendChild(hint);
+  // tournament totals (all matches, group + knockout)
+  const tot = {p:t.matches.length, w:0, d:0, l:0, gf:0, ga:0};
+  t.matches.forEach(m=>{ if(m.res==='W')tot.w++; else if(m.res==='D')tot.d++; else if(m.res==='L')tot.l++; tot.gf+=m.gf||0; tot.ga+=m.ga||0; });
+  const gd = tot.gf-tot.ga;
 
-  body.appendChild(sc); card.appendChild(body);
+  const band = el('div','kband');
+  [['Played',tot.p],['W·D·L',`${tot.w}·${tot.d}·${tot.l}`],['Goal diff',(gd>0?'+':'')+gd]]
+    .forEach(([k,v])=>{ const c=el('div','kbig'); c.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; band.appendChild(c); });
+  sc.appendChild(band);
+
+  const grid = el('div','kgrid');
+  [['&#9917;','Goals for',tot.gf],['&#128737;','Goals against',tot.ga],['&#9733;','Group points',t.pts],['&#127942;','Group finish',ordinal(t.finish)]]
+    .forEach(([ic,k,v])=>{ const c=el('div','ktile'); c.innerHTML=`<div class="ic">${ic}</div><div class="v">${v}</div><div class="k">${k}</div>`; grid.appendChild(c); });
+  sc.appendChild(grid);
+
+  if(t.matches.length){
+    const form = el('div','kform');
+    form.appendChild(el('div','klabel','Form'));
+    const row = el('div','fdots');
+    t.matches.forEach(m=>{
+      const d = el('span','fdot '+(m.res==='W'?'w':m.res==='L'?'l':'d'), m.res||'');
+      row.appendChild(d);
+    });
+    form.appendChild(row);
+    sc.appendChild(form);
+  }
+
+  const scorer = t.squad.reduce((a,b)=> (b.g||0) > ((a&&a.g)||0) ? b : a, null);
+  if(scorer && scorer.g){
+    const ts = el('div','ktop');
+    ts.appendChild(avatar(scorer));
+    const info = el('div','tinfo'); info.innerHTML = `<div class="tk">Top scorer</div><div class="tn">${scorer.name}</div>`;
+    ts.appendChild(info);
+    const gg = el('div','tg'); gg.innerHTML = `${scorer.g}<small>goals</small>`;
+    ts.appendChild(gg);
+    sc.appendChild(ts);
+  }
+
+  body.appendChild(topTab); body.appendChild(sc); body.appendChild(botTab);
+  card.appendChild(body);
   return card;
 }
 
