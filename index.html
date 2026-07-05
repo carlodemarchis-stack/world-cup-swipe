@@ -94,48 +94,47 @@
   .xtab.bot{bottom:0; padding-bottom:env(safe-area-inset-bottom);
     background:linear-gradient(to top, rgba(214,176,74,.14), transparent);}
   .scroll.tdash{padding:52px 18px 58px;}
-  .thero{display:flex; flex-direction:column; align-items:center; text-align:center;}
-  .crest.big{width:104px; height:104px;}
-  .thero .tname{font-size:32px; margin:14px 0 2px;}
-  .thero .confed{font-size:12px;}
-  .tpills{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px;}
+  .thero{display:flex; align-items:center; gap:16px; text-align:left;}
+  .crest.big{width:86px; height:86px; flex:none;}
+  .tcol{flex:1; min-width:0;}
+  .thero .tname{font-size:26px; line-height:1.02; margin:0;}
+  .thero .confed{font-size:11px; margin-top:3px;}
+  .tpills{display:flex; flex-wrap:wrap; justify-content:flex-start; gap:7px; margin-top:10px;}
   .tpill{display:inline-flex; align-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:700;
     font-size:12px; letter-spacing:.6px; text-transform:uppercase; padding:5px 13px; border-radius:20px;
     color:#fff; border:1px solid transparent;}
   .tpill .pflag{width:17px; height:12px; object-fit:cover; border-radius:2px; margin:0 5px 0 3px;
     box-shadow:0 0 0 1px rgba(255,255,255,.5);}
   .tpill.next{background:var(--win); color:#fff;}                       /* solid green — most visible */
+  .tpill.next.stacked{display:inline-block; text-align:center; padding:6px 15px; line-height:1.15;}
+  .tpill .np-main{display:flex; align-items:center; justify-content:center;}
+  .tpill .np-dt{display:block; font-weight:600; font-size:10px; letter-spacing:.5px; margin-top:1px; opacity:.85;}
   .tpill.ok{background:transparent; color:var(--win); border-color:var(--win);}  /* outlined green */
   .tpill.out{background:var(--loss);}                                   /* solid red — eliminated */
-  .kband{display:flex; margin-top:22px; border:1px solid var(--line); border-radius:14px; overflow:hidden;
-    background:var(--card); box-shadow:0 3px 12px rgba(60,50,30,.07);}
-  .kbig{flex:1; text-align:center; padding:16px 4px; border-right:1px solid var(--line);}
-  .kbig:last-child{border-right:none;}
-  .kbig .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; line-height:1; color:var(--text);}
-  .kbig .k{font-size:9px; color:var(--head); letter-spacing:1.2px; text-transform:uppercase; margin-top:6px;}
-  .kgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
-  .ktile{border:1px solid var(--line); border-radius:14px; background:var(--card); padding:14px 14px;
-    display:flex; flex-direction:column; box-shadow:0 2px 8px rgba(60,50,30,.05);}
-  .ktile .ic{font-size:15px; line-height:1;}
-  .ktile .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; line-height:1; margin-top:8px;}
-  .ktile .k{font-size:10px; color:var(--head); letter-spacing:.8px; text-transform:uppercase; margin-top:4px;}
-  .kform{margin-top:18px;}
+  .tsheet{margin-top:20px; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:var(--card); box-shadow:0 3px 12px rgba(60,50,30,.06);}
+  .tsec{display:flex; align-items:center; padding:11px 14px; border-bottom:1px solid var(--line);}
+  .tsec:last-child{border-bottom:none;}
+  .tsec-h{width:76px; flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700;
+    letter-spacing:1px; text-transform:uppercase; font-size:11px; color:var(--gold);}
+  .tsec-row{flex:1; display:flex;}
+  .tcell{flex:1; text-align:center;}
+  .tcell .v{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; line-height:1; color:var(--text);}
+  .tcell .k{font-size:9px; color:var(--head); letter-spacing:.6px; text-transform:uppercase; margin-top:5px;}
   .klabel{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:1.4px; text-transform:uppercase;
     font-size:11px; color:var(--head); margin-bottom:8px;}
-  .fdots{display:flex; gap:6px; flex-wrap:wrap;}
-  .fdot{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center;
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; color:#fff;}
-  .fdot.w{background:var(--win);} .fdot.l{background:var(--loss);} .fdot.d{background:var(--draw);}
-  .ktop{display:flex; align-items:center; gap:12px; margin-top:18px; padding:12px 14px; border-radius:14px;
-    border:1px solid var(--gold-line); background:rgba(214,176,74,.09); box-shadow:0 2px 8px rgba(60,50,30,.05);}
-  .ktop .pav{width:44px; height:44px;}
-  .ktop .tinfo{flex:1; min-width:0;}
-  .ktop .tk{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:1px; text-transform:uppercase;
-    font-size:10px; color:var(--gold);}
-  .ktop .tn{font-weight:700; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .ktop .tg{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; line-height:1; color:var(--gold);
-    display:flex; flex-direction:column; align-items:center;}
-  .ktop .tg small{font-size:9px; color:var(--head); letter-spacing:.6px; text-transform:uppercase; font-weight:600;}
+  /* top scorers */
+  .tscorers{margin-top:20px;}
+  .tsrow{display:flex; align-items:center; gap:11px; padding:7px 13px; border:1px solid var(--line);
+    border-radius:12px; background:var(--card); box-shadow:0 2px 8px rgba(60,50,30,.05); margin-bottom:7px;}
+  .tsrow .pav{width:36px; height:36px;}
+  .tsinfo{flex:1; min-width:0;}
+  .tsinfo .tn{font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .tsinfo .tsub{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; letter-spacing:.4px;
+    text-transform:uppercase; color:var(--sub); margin-top:2px;}
+  .tsg{flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; line-height:1;
+    color:var(--gold); display:flex; flex-direction:column; align-items:center;}
+  .tsg small{font-size:9px; color:var(--head); letter-spacing:.6px; text-transform:uppercase; font-weight:600;}
 
   /* ---- group table ---- */
   .gt{border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:18px;
@@ -206,12 +205,11 @@
   .prow{display:flex; align-items:center; gap:10px; padding:8px 8px; border-bottom:1px solid var(--line);}
   .prow .num{width:20px; flex:none; text-align:right; font-family:'Barlow Condensed',sans-serif;
     font-weight:700; font-size:14px; color:var(--sub);}
-  .prow .pav{width:32px; height:32px; flex:none; border-radius:50%; overflow:hidden;
+  .pav{position:relative; width:32px; height:32px; flex:none; border-radius:50%; overflow:hidden;
     background:var(--card2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
     font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; color:var(--gold);}
-  .prow .pav img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    object-position:center top; transform:scale(1.65); transform-origin:center 8%;}
-  .prow .pav{position:relative;}
+  .pav img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    object-position:center top; transform:scale(2.3); transform-origin:center 11%;}
   .prow .ppos{width:30px; flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700;
     font-size:10px; letter-spacing:.4px; color:var(--gold);}
   .prow .pn{flex:1; min-width:0; font-weight:600; font-size:14px; white-space:nowrap;
@@ -226,26 +224,58 @@
   .prow.tap:active{background:rgba(166,124,28,.08);}
   .prow .go{flex:none; color:var(--gold-line); font-size:12px; margin-left:2px;}
 
-  /* ---- player profile ---- */
-  .pwrap{position:relative; width:180px; height:150px; margin:0 auto 2px;
+  /* ---- player profile (photo left, data right) ---- */
+  .phero{display:flex; align-items:center; gap:16px; text-align:left;}
+  .pwrap{position:relative; width:100px; height:150px; flex:none;
     display:flex; align-items:flex-end; justify-content:center;}
   .pwrap .pphoto{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;
-    filter:drop-shadow(0 10px 18px rgba(60,50,30,.28)); display:block;}
+    mix-blend-mode:multiply; display:block;}   /* multiply drops the light studio backdrop */
   .pph-fb{display:none; position:absolute; left:50%; bottom:6px; transform:translateX(-50%);
-    width:104px; height:104px; border-radius:50%; align-items:center; justify-content:center;
+    width:84px; height:84px; border-radius:50%; align-items:center; justify-content:center;
     background:var(--card2); border:3px solid var(--line); color:var(--gold);
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:38px;}
-  .pmeta{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:10px; flex-wrap:wrap;}
-  .pmeta img{width:22px; height:15px; object-fit:cover; border-radius:2px;}
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:32px;}
+  .pcol{flex:1; min-width:0;}
+  .pcol .tname{font-size:26px; line-height:1.03; margin:0;}
+  .pmeta{display:flex; align-items:center; justify-content:flex-start; gap:7px; margin-top:8px; flex-wrap:wrap;}
+  .pmeta img{width:20px; height:14px; object-fit:cover; border-radius:2px;}
   .pmeta span{font-family:'Barlow Condensed',sans-serif; font-weight:600; color:var(--sub); letter-spacing:.4px;}
-  .pmeta b{font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--gold); font-size:12px;
-    letter-spacing:.6px; text-transform:uppercase; padding:2px 8px; border:1px solid var(--gold-line); border-radius:20px;}
-  .pevents{display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:16px;}
-  .pevents .e{display:inline-flex; align-items:center; gap:5px; padding:6px 12px; border-radius:20px;
+  .pmeta b{font-family:'Barlow Condensed',sans-serif; font-weight:700; color:var(--gold); font-size:11px;
+    letter-spacing:.6px; text-transform:uppercase; padding:2px 7px; border:1px solid var(--gold-line); border-radius:20px;}
+  .pbio{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:.4px;
+    text-transform:uppercase; color:var(--sub); margin-top:10px;}
+  .pevents{display:flex; justify-content:flex-start; flex-wrap:wrap; gap:7px; margin-top:11px;}
+  .pevents .e{display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:20px;
     border:1px solid var(--line); background:var(--card); box-shadow:0 2px 8px rgba(60,50,30,.06);
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; color:var(--text);}
-  .pevents .e .ic{font-size:13px; line-height:1;}
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; color:var(--text);}
+  .pevents .e .ic{font-size:12px; line-height:1;}
   .fnote{text-align:center; color:var(--head); font-size:10px; letter-spacing:.4px; margin-top:8px;}
+  /* FIFA Fantasy — violet card (bracket style) */
+  .pfan{margin-top:18px; border:1.5px solid rgba(124,77,255,.38); border-radius:14px;
+    background:rgba(124,77,255,.06); padding:12px; box-shadow:0 3px 14px rgba(56,30,120,.1);}
+  .pfan-tag{display:inline-block; background:#7c4dff; color:#fff; font-family:'Barlow Condensed',sans-serif;
+    font-weight:800; font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 9px;
+    border-radius:5px; box-shadow:0 2px 10px rgba(124,77,255,.4);}
+  .pfan-pills{display:flex; gap:7px; margin-top:11px;}
+  .pfan-pill{flex:1; text-align:center; background:rgba(124,77,255,.09); border:1px solid rgba(124,77,255,.28);
+    border-radius:10px; padding:8px 3px;}
+  .pfan-pill .v{font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:19px; line-height:1; color:#7c4dff;}
+  .pfan-pill .k{font-size:8.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--head); margin-top:3px;}
+  /* player match log */
+  .plog{margin-top:2px;}
+  .plrow{display:flex; align-items:center; gap:8px; padding:8px 4px; border-bottom:1px solid var(--line);}
+  .plrow:last-child{border-bottom:none;}
+  .pl-stage{width:32px; flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:11px;
+    letter-spacing:.4px; color:var(--gold); text-transform:uppercase;}
+  .pl-opp{flex:1; min-width:0; display:flex; align-items:center; gap:6px; font-size:13px;}
+  .pl-opp .pl-v{color:var(--head); font-size:11px;}
+  .pl-flag{width:18px; height:12px; object-fit:cover; border-radius:2px; flex:none;}
+  .pl-opp b{font-weight:700;}
+  .pl-score{flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:.5px; margin-left:3px;}
+  .pl-chips{flex:none; display:flex; align-items:center; gap:7px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px;}
+  .pl-chips .pp{display:inline-flex; align-items:center; gap:1px;}
+  .pl-chips .pp.on{color:var(--win);} .pl-chips .pp.off{color:var(--loss);}
+  .pl-chips .pe{display:inline-flex; align-items:center; gap:2px; color:var(--text);}
   .pinfo{margin-top:20px; border-top:1px solid var(--line);}
   .irow{display:flex; justify-content:space-between; align-items:center; padding:11px 4px;
     border-bottom:1px solid var(--line); font-family:'Barlow Condensed',sans-serif;}
@@ -334,18 +364,52 @@ async function load(){
 
   // Per-player tournament tally by FIFA id: goals / assists / cards + appearances
   // (aggregated across every match, group + knockout — same method as the bracket).
-  const EV = {}, APP = {};
+  const EV = {}, APP = {}, SUBS = {};   // SUBS = total substitutions per team code
   const bumpE = (id,f)=>{ if(!id) return; (EV[id]=EV[id]||{g:0,a:0,y:0,r:0})[f]++; };
   const eatG = arr => (arr||[]).forEach(g=>{ if(g.id && String(g.p||'').indexOf('(o.g.)')<0) bumpE(g.id,'g'); if(g.aid) bumpE(g.aid,'a'); });
   const eatC = arr => (arr||[]).forEach(c=>{ if(c.id) bumpE(c.id, c.c==='R'?'r':'y'); });
-  const eatL = line => { if(!line) return; Object.values(line).forEach(tl=>{
+  const eatL = line => { if(!line) return; Object.entries(line).forEach(([code,tl])=>{
     const ids = new Set([...(tl.xi||[]), ...((tl.subs||[]).flatMap(s=>[s[0],s[1]]))]);
-    ids.forEach(id=>{ if(id) APP[id]=(APP[id]||0)+1; }); }); };
+    ids.forEach(id=>{ if(id) APP[id]=(APP[id]||0)+1; });
+    SUBS[code] = (SUBS[code]||0) + (tl.subs||[]).length; }); };
   const eatMatch = s => { if(!s) return; eatG(s.goals); eatC(s.cards); eatL(s.line); };
   Object.values(data.groups||{}).forEach(gr=>(gr.matches||[]).forEach(eatMatch));
   Object.values(data.r32||{}).forEach(eatMatch);
   Object.values(data.schedule||{}).forEach(eatMatch);
   [data.final, data.thirdPlace].forEach(eatMatch);
+
+  // per-player match log: participation + events for each match they featured in.
+  // PLOG[id] is an array; squad players hold a reference so KO entries added later show too.
+  const PLOG = {};
+  const logMatch = (stage, aCode, bCode, raw) => {
+    if(!raw) return; const line = raw.line || {};
+    const sp = String(raw.s || raw.score || '').split(/[–-]/).map(x=>+x.trim());  // s=group(a-b), score=KO(winner-first)
+    [[aCode,bCode],[bCode,aCode]].forEach(([code,opp])=>{
+      if(!code) return;
+      let gf=null, ga=null;
+      if(sp.length===2){
+        if(raw.s){ gf = code===aCode?sp[0]:sp[1]; ga = code===aCode?sp[1]:sp[0]; }        // group a-b order
+        else { const won = raw.winner===code; gf = won?sp[0]:sp[1]; ga = won?sp[1]:sp[0]; } // KO winner-first
+      }
+      const res = gf==null ? '' : gf>ga ? 'W' : gf<ga ? 'L' : 'D';
+      const evBy = {}, ev = id => (evBy[id] = evBy[id] || {goals:[], assists:[], yellow:null, red:null});
+      (raw.goals||[]).forEach(g=>{ if(g.t!==code) return;
+        if(g.id && String(g.p||'').indexOf('(o.g.)')<0) ev(g.id).goals.push({m:g.m, pen:!!g.pen});
+        if(g.aid) ev(g.aid).assists.push({m:g.m}); });
+      (raw.cards||[]).forEach(c=>{ if(c.t!==code || !c.id) return;
+        if(c.c==='R') ev(c.id).red = c.m; else ev(c.id).yellow = c.m; });
+      const part = {}, tl = line[code];
+      if(tl){ (tl.xi||[]).forEach(id=>{ (part[id]=part[id]||{}).started=true; });
+        (tl.subs||[]).forEach(([inId,outId,m])=>{ if(inId)(part[inId]=part[inId]||{}).on=m; if(outId)(part[outId]=part[outId]||{}).off=m; }); }
+      new Set([...Object.keys(part), ...Object.keys(evBy)]).forEach(id=>{
+        const p = part[id]||{}, e = evBy[id]||{goals:[],assists:[]};
+        if(!p.started && p.on==null && p.off==null && !e.goals.length && !e.assists.length && !e.yellow && !e.red) return;
+        (PLOG[id]=PLOG[id]||[]).push({ stage, opp, oppIso:meta[opp]?.iso, hasLine:!!tl, gf, ga, res,
+          started:!!p.started, on:p.on||null, off:p.off||null, goals:e.goals, assists:e.assists, yellow:e.yellow, red:e.red });
+      });
+    });
+  };
+  Object.values(data.groups||{}).forEach(g=>(g.matches||[]).forEach(m=>logMatch('GRP', m.a, m.b, m)));
 
   // full match object (group or knockout) from one team's perspective
   const ytUrl = h => h ? ('https://www.youtube.com/watch?v='+h+'&list=PLBRLtDhTHh5o') : null;
@@ -380,13 +444,14 @@ async function load(){
         const f = fById[String(p.id)] || {}, e = EV[p.id] || {};
         return { num:p.n, name:p.p, pos:p.pos, id:p.id, pic:p.pic, dob:p.dob, ht:p.ht, wt:p.wt,
                  pts:f.pts, avg:f.avg, pr:f.pr, own:f.o, st:f.st,
-                 g:e.g||0, a:e.a||0, y:e.y||0, red:e.r||0, app:APP[p.id]||0 };
+                 g:e.g||0, a:e.a||0, y:e.y||0, red:e.r||0, app:APP[p.id]||0,
+                 plog:(PLOG[p.id]=PLOG[p.id]||[]) };
       }).sort((a,b)=> (a.num||99)-(b.num||99));
 
       TEAMS.push({
         code:r.code, name:r.name, iso:r.iso, group:gl, finish:i+1,
         confed:confOf[r.code]||'—',
-        w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, pts:r.w*3+r.d, gd:r.gf-r.ga,
+        w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, pts:r.w*3+r.d, gd:r.gf-r.ga, subs:SUBS[r.code]||0,
         through:koSet.has(r.code), groupTable, matches, squad
       });
     });
@@ -415,6 +480,7 @@ async function load(){
     }));
     if(data.final && data.final.score) koList.push({stage:'F', round:'Final', a:winnerOfNode('R',4,0), b:winnerOfNode('L',4,0), slot:data.final});
     if(data.thirdPlace && data.thirdPlace.score) koList.push({stage:'3rd', round:'Third place', a:sfLoser('R'), b:sfLoser('L'), slot:data.thirdPlace});
+    koList.forEach(km=>logMatch(km.stage, km.a, km.b, km.slot));   // player match logs for knockout
     koList.forEach(km=>{
       const g = String(km.slot.score).split(/[–-]/).map(s=>+s.trim());
       [[km.a,km.b],[km.b,km.a]].forEach(([code,opp])=>{
@@ -436,13 +502,13 @@ async function load(){
         if(!slot || !slot.score){
           const [a,b] = participants(side,L,k);
           const opp = (a===t.code?b:a)||null;
-          t.next = { stage:KO[L][0], round:KO[L][1], opp, oppIso:meta[opp]?.iso, date:(slot||{}).date };
+          t.next = { stage:KO[L][0], round:KO[L][1], opp, oppIso:meta[opp]?.iso, date:(slot||{}).date, time:(slot||{}).time };
           break;
         }
       }
       if(!t.next && !(data.final && data.final.score)){
         const opp = winnerOfNode(side==='R'?'L':'R',4,0)||null;
-        t.next = { stage:'F', round:'Final', opp, oppIso:meta[opp]?.iso };
+        t.next = { stage:'F', round:'Final', opp, oppIso:meta[opp]?.iso, date:(data.final||{}).date, time:(data.final||{}).time };
       }
     });
   }
@@ -567,59 +633,64 @@ function mainCard(t){
 
   const sc = el('div','scroll tdash');
 
+  // hero: flag on the left; name / confed·group / pills stacked on the right
   const hero = el('div','thero');
-  hero.innerHTML = `<div class="crest big" style="--rc:${rc}"><div class="coin"><img loading="lazy" decoding="async" src="${flag(t.iso,'w320')}" alt=""></div></div>
-    <div class="tname">${t.name}</div>
-    <div class="confed">${t.confed} · Group ${t.group}</div>`;
-  sc.appendChild(hero);
-
+  hero.innerHTML = `<div class="crest big" style="--rc:${rc}"><div class="coin"><img loading="lazy" decoding="async" src="${flag(t.iso,'w320')}" alt=""></div></div>`;
+  const tcol = el('div','tcol');
+  tcol.appendChild(el('div','tname', t.name));
+  tcol.appendChild(el('div','confed', `${t.confed} · Group ${t.group}`));
   const pills = el('div','tpills');
   pills.appendChild(el('span','tpill '+(t.through?'ok':'out'), (t.through?'Qualified · ':'')+ordinal(t.finish)+' in group'));
   if(inTour && t.next){
     const opp = t.next.opp
       ? `<img class="pflag" loading="lazy" decoding="async" src="${flag(t.next.oppIso,'w40')}" alt=""> ${t.next.opp}`
       : 'TBD';
-    pills.appendChild(el('span','tpill next', `Next · ${t.next.stage} v ${opp}`));
+    const dt = [t.next.date, t.next.time].filter(Boolean).join(' · ');
+    const np = el('span','tpill next'+(dt?' stacked':''));
+    np.innerHTML = `<span class="np-main">Next · ${t.next.stage} v ${opp}</span>` + (dt?`<span class="np-dt">${dt}</span>`:'');
+    pills.appendChild(np);
   }
   else if(!inTour) pills.appendChild(el('span','tpill out', RANK_LABEL[t.rank]||''));
-  sc.appendChild(pills);
+  tcol.appendChild(pills);
+  hero.appendChild(tcol);
+  sc.appendChild(hero);
 
   // tournament totals (all matches, group + knockout)
   const tot = {p:t.matches.length, w:0, d:0, l:0, gf:0, ga:0};
   t.matches.forEach(m=>{ if(m.res==='W')tot.w++; else if(m.res==='D')tot.d++; else if(m.res==='L')tot.l++; tot.gf+=m.gf||0; tot.ga+=m.ga||0; });
   const gd = tot.gf-tot.ga;
+  const used = t.squad.filter(p=>p.app>0).length;
+  const cards = t.squad.reduce((s,p)=>s+(p.y||0)+(p.red||0), 0);
 
-  const band = el('div','kband');
-  [['Played',tot.p],['W·D·L',`${tot.w}·${tot.d}·${tot.l}`],['Goal diff',(gd>0?'+':'')+gd]]
-    .forEach(([k,v])=>{ const c=el('div','kbig'); c.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; band.appendChild(c); });
-  sc.appendChild(band);
+  // condensed stat sheet, grouped by category
+  const sheet = el('div','tsheet');
+  const sec = (label, cells) => {
+    const s = el('div','tsec'); s.appendChild(el('div','tsec-h', label));
+    const row = el('div','tsec-row');
+    cells.forEach(([v,k])=>{ const c=el('div','tcell'); c.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; row.appendChild(c); });
+    s.appendChild(row); return s;
+  };
+  sheet.appendChild(sec('Record', [[tot.p,'Played'], [`${tot.w}·${tot.d}·${tot.l}`,'W·D·L'], [t.pts,'Group pts']]));
+  sheet.appendChild(sec('Goals',  [[tot.gf,'For'], [tot.ga,'Against'], [(gd>0?'+':'')+gd,'Diff']]));
+  sheet.appendChild(sec('Squad',  [[`${used}/${t.squad.length}`,'Players used'], [t.subs,'Subs made'], [cards,'Cards']]));
+  sc.appendChild(sheet);
 
-  const grid = el('div','kgrid');
-  [['&#9917;','Goals for',tot.gf],['&#128737;','Goals against',tot.ga],['&#9733;','Group points',t.pts],['&#127942;','Group finish',ordinal(t.finish)]]
-    .forEach(([ic,k,v])=>{ const c=el('div','ktile'); c.innerHTML=`<div class="ic">${ic}</div><div class="v">${v}</div><div class="k">${k}</div>`; grid.appendChild(c); });
-  sc.appendChild(grid);
-
-  if(t.matches.length){
-    const form = el('div','kform');
-    form.appendChild(el('div','klabel','Form'));
-    const row = el('div','fdots');
-    t.matches.forEach(m=>{
-      const d = el('span','fdot '+(m.res==='W'?'w':m.res==='L'?'l':'d'), m.res||'');
-      row.appendChild(d);
+  // top scorers (with photos)
+  const scorers = t.squad.filter(p=>p.g>0).sort((a,b)=> (b.g-a.g) || (b.a-a.a)).slice(0,5);
+  if(scorers.length){
+    const box = el('div','tscorers');
+    box.appendChild(el('div','klabel', scorers.length>1?'Top scorers':'Top scorer'));
+    scorers.forEach(p=>{
+      const row = el('div','tsrow');
+      row.appendChild(avatar(p, true));
+      const info = el('div','tsinfo');
+      info.innerHTML = `<div class="tn">${p.name}</div><div class="tsub">${POS[p.pos]||''}${p.a?` · ${p.a} assist${p.a>1?'s':''}`:''}</div>`;
+      row.appendChild(info);
+      const g = el('div','tsg'); g.innerHTML = `${p.g}<small>${p.g===1?'goal':'goals'}</small>`;
+      row.appendChild(g);
+      box.appendChild(row);
     });
-    form.appendChild(row);
-    sc.appendChild(form);
-  }
-
-  const scorer = t.squad.reduce((a,b)=> (b.g||0) > ((a&&a.g)||0) ? b : a, null);
-  if(scorer && scorer.g){
-    const ts = el('div','ktop');
-    ts.appendChild(avatar(scorer));
-    const info = el('div','tinfo'); info.innerHTML = `<div class="tk">Top scorer</div><div class="tn">${scorer.name}</div>`;
-    ts.appendChild(info);
-    const gg = el('div','tg'); gg.innerHTML = `${scorer.g}<small>goals</small>`;
-    ts.appendChild(gg);
-    sc.appendChild(ts);
+    sc.appendChild(box);
   }
 
   body.appendChild(topTab); body.appendChild(sc); body.appendChild(botTab);
@@ -726,10 +797,10 @@ function matchCard(t, m, i){
 }
 
 /* small avatar: shirt number underneath, photo overlays it once loaded */
-function avatar(pl){
+function avatar(pl, eager){
   const w = el('div','pav'); w.textContent = pl.num!=null?pl.num:'–';
   if(pl.pic){
-    const img = el('img'); img.loading='lazy'; img.decoding='async'; img.src = pl.pic; img.alt='';
+    const img = el('img'); img.loading = eager?'eager':'lazy'; img.decoding='async'; img.src = pl.pic; img.alt='';
     img.onerror = ()=>img.remove();
     w.appendChild(img);
   }
@@ -786,47 +857,68 @@ function playerCard(t, pl, i){
   const card = el('div','card main');
   const body = el('div','body'); const sc = el('div','scroll'); sc.style.paddingTop='24px';
 
-  const head = el('div','flagwrap');
+  // hero: photo on the left, data on the right
+  const hero = el('div','phero');
   const ph = el('div','pwrap');
-  const img = el('img','pphoto'); img.loading='lazy'; img.decoding='async'; img.src = pl.pic||''; img.alt='';
+  const img = el('img','pphoto'); img.loading='eager'; img.decoding='async'; img.src = pl.pic||''; img.alt='';
   img.onerror = ()=>{ img.style.display='none'; ph.querySelector('.pph-fb').style.display='flex'; };
-  const fb = el('div','pph-fb', pl.num!=null?pl.num:'–');
-  ph.appendChild(img); ph.appendChild(fb);
-  head.appendChild(ph);
+  ph.appendChild(img); ph.appendChild(el('div','pph-fb', pl.num!=null?pl.num:'–'));
+  hero.appendChild(ph);
 
-  head.appendChild(el('div','tname', pl.name));
+  const pcol = el('div','pcol');
+  pcol.appendChild(el('div','tname', pl.name));
   const meta = el('div','pmeta');
   meta.innerHTML = `<img loading="lazy" decoding="async" src="${flag(t.iso,'w40')}" alt=""><span>${t.name}</span>
     <b>#${pl.num!=null?pl.num:'–'}</b><b>${POS[pl.pos]||''}</b>`;
-  head.appendChild(meta);
-
+  pcol.appendChild(meta);
   if(pl.st){
     const stC = {playing:'var(--win)', injured:'var(--loss)', suspended:'var(--loss)', doubt:'#d69a2a'}[pl.st] || 'var(--draw)';
-    const sb = el('span','badge'); sb.style.background = stC; sb.style.marginTop='12px'; sb.style.textTransform='capitalize';
-    sb.textContent = pl.st; head.appendChild(sb);
+    const sb = el('span','badge'); sb.style.background = stC; sb.style.marginTop='10px'; sb.style.textTransform='capitalize';
+    sb.textContent = pl.st; pcol.appendChild(sb);
   }
-  sc.appendChild(head);
-
-  // tournament events line (appearances / goals / assists / cards)
+  const yr = pl.dob ? (2026 - (+pl.dob.slice(0,4))) : null;
+  const bio = [yr!=null?yr+' yrs':null, pl.ht?pl.ht+' cm':null, pl.wt?pl.wt+' kg':null].filter(Boolean).join('  ·  ');
+  if(bio) pcol.appendChild(el('div','pbio', bio));
   const evs = [['&#128085;',pl.app],['&#9917;',pl.g],['&#129406;',pl.a],['🟨',pl.y],['🟥',pl.red]].filter(x=>x[1]);
   if(evs.length){
     const er = el('div','pevents');
     evs.forEach(([ic,n])=> er.innerHTML += `<span class="e"><span class="ic">${ic}</span>${n}</span>`);
-    sc.appendChild(er);
+    pcol.appendChild(er);
+  }
+  hero.appendChild(pcol);
+  sc.appendChild(hero);
+
+  // match log (short form): stage · v opp · score · participation · events
+  if(pl.plog && pl.plog.length){
+    sc.appendChild(el('div','sect','Matches'));
+    const log = el('div','plog');
+    pl.plog.forEach(e=>{
+      let chips = '';
+      if(e.on!=null)  chips += `<span class="pp on">&#9650;${e.on}</span>`;
+      if(e.off!=null) chips += `<span class="pp off">&#9660;${e.off}</span>`;
+      (e.goals||[]).forEach(g=> chips += `<span class="pe">&#9917;${g.m}${g.pen?'(p)':''}</span>`);
+      (e.assists||[]).forEach(a=> chips += `<span class="pe">&#129406;${a.m}</span>`);
+      if(e.yellow) chips += `<span class="pe">🟨${e.yellow}</span>`;
+      if(e.red) chips += `<span class="pe">🟥${e.red}</span>`;
+      const scol = e.res==='W'?'var(--win)':e.res==='L'?'var(--loss)':'var(--draw)';
+      const score = e.gf!=null ? `<span class="pl-score" style="color:${scol}">${e.gf}–${e.ga}</span>` : '';
+      const row = el('div','plrow');
+      row.innerHTML = `<span class="pl-stage">${e.stage}</span>
+        <span class="pl-opp"><span class="pl-v">v</span><img class="pl-flag" loading="lazy" decoding="async" src="${flag(e.oppIso,'w40')}" alt=""><b>${e.opp}</b>${score}</span>
+        <span class="pl-chips">${chips}</span>`;
+      log.appendChild(row);
+    });
+    sc.appendChild(log);
   }
 
-  const has = pl.pts!=null;
-  const sr = el('div','statrow'); sr.style.marginTop='18px';
-  [['Pts', has?pl.pts:'–'],['Avg', pl.avg!=null?pl.avg:'–'],['Price', pl.pr!=null?pl.pr:'–'],['Own', pl.own!=null?pl.own+'%':'–']]
-    .forEach(([k,v])=>{ const st=el('div','stat'); st.innerHTML=`<div class="v">${v}</div><div class="k">${k}</div>`; sr.appendChild(st); });
-  sc.appendChild(sr);
-  if(has) sc.appendChild(el('div','fnote','Fantasy · total points, per-match average, price, ownership'));
-
-  const info = el('div','pinfo');
-  const yr = pl.dob ? (2026 - (+pl.dob.slice(0,4))) : null;
-  [['Age', yr!=null?yr:'–'],['Born', pl.dob||'–'],['Height', pl.ht?pl.ht+' cm':'–'],['Weight', pl.wt?pl.wt+' kg':'–']]
-    .forEach(([k,v])=>{ const r=el('div','irow'); r.innerHTML=`<span>${k}</span><b>${v}</b>`; info.appendChild(r); });
-  sc.appendChild(info);
+  // FIFA Fantasy — violet card at the bottom
+  if(pl.pts!=null){
+    const fan = el('div','pfan');
+    fan.innerHTML = `<div class="pfan-tag">&#9733; FIFA Fantasy</div>
+      <div class="pfan-pills">${[['Pts',pl.pts],['Avg',pl.avg!=null?pl.avg:'–'],['Price',pl.pr!=null?pl.pr:'–'],['Own',pl.own!=null?pl.own+'%':'–']]
+        .map(([k,v])=>`<div class="pfan-pill"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('')}</div>`;
+    sc.appendChild(fan);
+  }
 
   body.appendChild(sc); card.appendChild(body);
   return card;
