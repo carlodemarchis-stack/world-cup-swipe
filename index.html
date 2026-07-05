@@ -476,7 +476,8 @@ function currentTrail(){
   const t = L.team;
   if(L.kind==='matches'){
     if(POSN.col===0) return [cHome(), cTeam(t), {label:'Matches'}];
-    return [cHome(), cTeam(t), {label:'Matches', action:()=>go(0,0)}, {label:t.matches[POSN.col-1].stage}];
+    const m = t.matches[POSN.col-1];
+    return [cHome(), cTeam(t), {label:'Matches', action:()=>go(0,0)}, {label:`${m.stage} · v ${m.opp}`}];
   }
   if(POSN.col===0) return [cHome(), cTeam(t), {label:'Squad'}];
   return [cHome(), cTeam(t), {label:'Squad', action:()=>go(0,0)}, {label:t.squad[POSN.col-1].name}];
