@@ -682,7 +682,7 @@ function mainCard(t){
     box.appendChild(el('div','klabel', scorers.length>1?'Top scorers':'Top scorer'));
     scorers.forEach(p=>{
       const row = el('div','tsrow');
-      row.appendChild(avatar(p, true));
+      row.appendChild(avatar(p));
       const info = el('div','tsinfo');
       info.innerHTML = `<div class="tn">${p.name}</div><div class="tsub">${POS[p.pos]||''}${p.a?` · ${p.a} assist${p.a>1?'s':''}`:''}</div>`;
       row.appendChild(info);
@@ -860,7 +860,7 @@ function playerCard(t, pl, i){
   // hero: photo on the left, data on the right
   const hero = el('div','phero');
   const ph = el('div','pwrap');
-  const img = el('img','pphoto'); img.loading='eager'; img.decoding='async'; img.src = pl.pic||''; img.alt='';
+  const img = el('img','pphoto'); img.loading='lazy'; img.decoding='async'; img.src = pl.pic||''; img.alt='';
   img.onerror = ()=>{ img.style.display='none'; ph.querySelector('.pph-fb').style.display='flex'; };
   ph.appendChild(img); ph.appendChild(el('div','pph-fb', pl.num!=null?pl.num:'–'));
   hero.appendChild(ph);
