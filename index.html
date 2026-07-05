@@ -98,8 +98,11 @@
   .thero .tname{font-size:32px; margin:14px 0 2px;}
   .thero .confed{font-size:12px;}
   .tpills{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px;}
-  .tpill{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:.6px;
-    text-transform:uppercase; padding:5px 13px; border-radius:20px; color:#fff; border:1px solid transparent;}
+  .tpill{display:inline-flex; align-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:700;
+    font-size:12px; letter-spacing:.6px; text-transform:uppercase; padding:5px 13px; border-radius:20px;
+    color:#fff; border:1px solid transparent;}
+  .tpill .pflag{width:17px; height:12px; object-fit:cover; border-radius:2px; margin:0 5px 0 3px;
+    box-shadow:0 0 0 1px rgba(255,255,255,.5);}
   .tpill.next{background:var(--win); color:#fff;}                       /* solid green — most visible */
   .tpill.ok{background:transparent; color:var(--win); border-color:var(--win);}  /* outlined green */
   .tpill.out{background:var(--loss);}                                   /* solid red — eliminated */
@@ -431,12 +434,15 @@ async function load(){
         const slot = L===1 ? data.r32[side+':1:'+k] : data.schedule[side+':'+L+':'+k];
         if(!slot || !slot.score){
           const [a,b] = participants(side,L,k);
-          t.next = { stage:KO[L][0], round:KO[L][1], opp:(a===t.code?b:a)||null, date:(slot||{}).date };
+          const opp = (a===t.code?b:a)||null;
+          t.next = { stage:KO[L][0], round:KO[L][1], opp, oppIso:meta[opp]?.iso, date:(slot||{}).date };
           break;
         }
       }
-      if(!t.next && !(data.final && data.final.score))
-        t.next = { stage:'F', round:'Final', opp: winnerOfNode(side==='R'?'L':'R',4,0)||null };
+      if(!t.next && !(data.final && data.final.score)){
+        const opp = winnerOfNode(side==='R'?'L':'R',4,0)||null;
+        t.next = { stage:'F', round:'Final', opp, oppIso:meta[opp]?.iso };
+      }
     });
   }
 
@@ -567,7 +573,12 @@ function mainCard(t){
 
   const pills = el('div','tpills');
   pills.appendChild(el('span','tpill '+(t.through?'ok':'out'), (t.through?'Qualified · ':'')+ordinal(t.finish)+' in group'));
-  if(inTour && t.next) pills.appendChild(el('span','tpill next', `Next · ${t.next.stage} v ${t.next.opp||'TBD'}`));
+  if(inTour && t.next){
+    const opp = t.next.opp
+      ? `<img class="pflag" loading="lazy" decoding="async" src="${flag(t.next.oppIso,'w40')}" alt=""> ${t.next.opp}`
+      : 'TBD';
+    pills.appendChild(el('span','tpill next', `Next · ${t.next.stage} v ${opp}`));
+  }
   else if(!inTour) pills.appendChild(el('span','tpill out', RANK_LABEL[t.rank]||''));
   sc.appendChild(pills);
 
