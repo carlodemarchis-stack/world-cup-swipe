@@ -189,14 +189,14 @@
   .hlbtn{display:flex; align-items:center; justify-content:center; gap:8px; margin:16px auto 4px; max-width:220px;
     padding:10px 16px; border-radius:22px; background:#e0463f; color:#fff; text-decoration:none;
     font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.8px; text-transform:uppercase; font-size:13px;}
-  .grow{display:flex; align-items:baseline; gap:8px; padding:7px 4px; border-bottom:1px solid var(--line); opacity:.6;}
+  .grow{display:flex; align-items:center; gap:8px; padding:7px 4px; border-bottom:1px solid var(--line); opacity:.6;}
   .grow.us{opacity:1;}
-  .grow .gmin{width:38px; flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  .grow .gflag{width:20px; height:14px; flex:none; object-fit:cover; border-radius:2px;}
+  .grow .gmin{width:34px; flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:700;
     font-size:13px; color:var(--gold); text-align:right;}
   .grow .gball{flex:none; font-size:12px;}
   .grow .gname{flex:1; min-width:0; font-size:14px; font-weight:600;}
   .grow .gname em{font-style:normal; font-weight:500; color:var(--sub);}
-  .gdesc{margin:2px 0 8px 54px; font-size:12px; font-style:italic; color:var(--sub); line-height:1.4;}
 
   .prow{display:flex; align-items:center; gap:10px; padding:8px 8px; border-bottom:1px solid var(--line);}
   .prow .num{width:20px; flex:none; text-align:right; font-family:'Barlow Condensed',sans-serif;
@@ -689,21 +689,21 @@ function matchCard(t, m, i){
   if(m.highlights){ const a=el('a','hlbtn'); a.href=m.highlights; a.target='_blank'; a.rel='noopener';
     a.innerHTML='&#9654; Highlights'; sc.appendChild(a); }
 
+  const gflag = us => `<img class="gflag" loading="lazy" decoding="async" src="${flag(us?t.iso:m.oppIso,'w40')}" alt="">`;
   if(m.goals.length){
     sc.appendChild(el('div','sect','Goals'));
     m.goals.forEach(g=>{
       const r = el('div','grow'+(g.us?' us':''));
-      r.innerHTML = `<span class="gmin">${g.min||''}</span><span class="gball">&#9917;</span>
+      r.innerHTML = `${gflag(g.us)}<span class="gmin">${g.min||''}</span><span class="gball">&#9917;</span>
         <span class="gname">${g.name}${g.pen?' <em>(pen)</em>':''}${g.og?' <em>(o.g.)</em>':''}${g.assist?' <em>— '+g.assist+'</em>':''}</span>`;
       sc.appendChild(r);
-      if(g.desc) sc.appendChild(el('div','gdesc', g.desc));
     });
   }
   if(m.cards.length){
     sc.appendChild(el('div','sect','Cards'));
     m.cards.forEach(c=>{
       const r = el('div','grow'+(c.us?' us':''));
-      r.innerHTML = `<span class="gmin">${c.min||''}</span><span class="gball">${c.red?'🟥':'🟨'}</span><span class="gname">${c.name}</span>`;
+      r.innerHTML = `${gflag(c.us)}<span class="gmin">${c.min||''}</span><span class="gball">${c.red?'🟥':'🟨'}</span><span class="gname">${c.name}</span>`;
       sc.appendChild(r);
     });
   }
