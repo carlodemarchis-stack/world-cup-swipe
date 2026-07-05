@@ -63,9 +63,6 @@
   .crest .coin{width:100%; height:100%; border-radius:50%; overflow:hidden; background:var(--card2);
     border:3px solid var(--rc); box-shadow:0 4px 12px rgba(60,50,30,.24);}
   .crest .coin img{width:100%; height:100%; object-fit:cover;}
-  .crest .cbadge{position:absolute; top:-3px; right:-3px; width:22px; height:22px; border-radius:50%;
-    background:var(--rc); color:#fff; display:flex; align-items:center; justify-content:center;
-    font-size:12px; font-weight:700; line-height:1; border:2.5px solid #f6f1e6; box-shadow:0 1px 4px rgba(0,0,0,.22);}
   .chip .c{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.5px;}
 
   /* ---- team main ---- */
@@ -280,6 +277,8 @@ async function load(){
   const fById = {};
   (fant.players||[]).forEach(p=>{ if(p.fid!=null) fById[String(p.fid)] = p; });
 
+  // teams in the 32-team knockout field (top 2 per group + 8 best thirds).
+  const koSet = new Set((data.teams||[]).map(t=>t.code));
   const meta = {};
   Object.values(data.groups).forEach(g=>g.table.forEach(r=>{ meta[r.code]={name:r.name, iso:r.iso}; }));
 
@@ -338,7 +337,7 @@ async function load(){
         code:r.code, name:r.name, iso:r.iso, group:gl, finish:i+1,
         confed:confOf[r.code]||'—',
         w:r.w, d:r.d, l:r.l, gf:r.gf, ga:r.ga, pts:r.w*3+r.d, gd:r.gf-r.ga,
-        through:i<2, groupTable, matches, squad
+        through:koSet.has(r.code), groupTable, matches, squad
       });
     });
   });
@@ -460,12 +459,7 @@ function render(){
 
 function homeCard(){
   const card = el('div','card main');
-  const s = el('div','body'); const sc = el('div','scroll');
-  const hero = el('div','hero');
-  hero.appendChild(el('div','kicker','Swipe Edition'));
-  hero.appendChild(el('div','h1','Teams of<br>the World Cup'));
-  hero.appendChild(el('div','lead','Ordered by how far they’ve gone. Swipe or use the arrows — left / right between teams, up for matches, down for squad. Tap a crest to jump.'));
-  sc.appendChild(hero);
+  const s = el('div','body'); const sc = el('div','scroll'); sc.style.paddingTop='6px';
   // grouped by tournament progress (still in → eliminated by round), like the players tab
   let lastRank = null, grid = null;
   TEAMS.forEach((t,i)=>{
@@ -478,7 +472,6 @@ function homeCard(){
     const chip = el('div','chip');
     chip.innerHTML = `<div class="crest" style="--rc:${inTour?'var(--win)':'var(--loss)'}">
       <div class="coin"><img loading="lazy" decoding="async" src="${flag(t.iso,'w160')}" alt=""></div>
-      <div class="cbadge">${inTour?'&#10003;':'&#10005;'}</div>
     </div><div class="c">${t.code}</div>`;
     chip.addEventListener('click', ()=>go(i+1,0));
     grid.appendChild(chip);
@@ -564,7 +557,6 @@ function matchesCard(t){
   const card = el('div','card up');
   const body = el('div','body');
   const sc = matchList(t, i=>enterMatches(t, i));
-  sc.insertBefore(el('div','lead','Matches of '+t.name+' — tap one, or swipe right to browse them.'), sc.firstChild);
   body.appendChild(sc); card.appendChild(body);
   return card;
 }
@@ -573,7 +565,6 @@ function matchesHomeCard(t){
   const card = el('div','card main');
   const body = el('div','body');
   const sc = matchList(t, i=>go(i+1, 0));
-  sc.insertBefore(el('div','lead','Matches of '+t.name+' — tap one, or swipe right to browse.'), sc.firstChild);
   body.appendChild(sc); card.appendChild(body);
   return card;
 }
@@ -661,7 +652,6 @@ function playersCard(t){
   const card = el('div','card down');
   const body = el('div','body');
   const sc = squadList(t, i=>enterPlayers(t, i));
-  sc.insertBefore(el('div','lead','Squad of '+t.name+' — tap a player, or swipe right to browse them.'), sc.firstChild);
   body.appendChild(sc);
   card.appendChild(body);
   return card;
@@ -671,7 +661,6 @@ function playersHomeCard(t){
   const card = el('div','card main');
   const body = el('div','body');
   const sc = squadList(t, i=>go(i+1, 0));   // stay in this level, jump to the player column
-  sc.insertBefore(el('div','lead','Squad of '+t.name+' — tap a player, or swipe right to browse.'), sc.firstChild);
   body.appendChild(sc);
   card.appendChild(body);
   return card;
