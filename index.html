@@ -27,22 +27,20 @@
     display:flex; flex-direction:column;}
   .card.up{top:0;} .card.main{top:var(--H);} .card.down{top:calc(var(--H) * 2);}
 
-  /* ---- nav bar ---- */
-  .nav{flex:none; display:flex; align-items:center; gap:10px;
+  /* ---- breadcrumb bar ---- */
+  .nav{flex:none; display:flex; align-items:center; gap:7px;
     padding:0 14px; padding-top:env(safe-area-inset-top);
     height:calc(52px + env(safe-area-inset-top));
     border-bottom:1px solid var(--line); background:rgba(255,253,247,.72);
-    backdrop-filter:blur(10px); position:relative; z-index:3;}
-  .nav .btn{flex:none; display:inline-flex; align-items:center; gap:6px;
-    height:32px; padding:0 12px; border-radius:16px; border:1px solid var(--line);
-    background:rgba(0,0,0,.03); color:var(--text); font-size:12px;
-    font-weight:600; letter-spacing:.4px; cursor:pointer; font-family:'Barlow Condensed',sans-serif;
-    text-transform:uppercase;}
-  .nav .btn.home{color:var(--gold); border-color:var(--gold-line);}
-  .nav .title{flex:1; text-align:center; font-family:'Barlow Condensed',sans-serif;
-    font-weight:700; letter-spacing:1.4px; text-transform:uppercase; font-size:13px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .nav .spacer{width:64px; flex:none;}
+    backdrop-filter:blur(10px); position:relative; z-index:3;
+    overflow-x:auto; overflow-y:hidden; white-space:nowrap; -webkit-overflow-scrolling:touch;}
+  .nav::-webkit-scrollbar{display:none;}
+  .crumb{flex:none; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:.6px; text-transform:uppercase; color:var(--sub); cursor:pointer;}
+  .crumb.hm{color:var(--gold); font-size:15px;}
+  .crumb:not(.cur):active{color:var(--gold);}
+  .crumb.cur{color:var(--text); font-weight:700; cursor:default;}
+  .sep{flex:none; color:var(--head); font-size:13px; font-weight:400;}
 
   .body{flex:1; min-height:0; position:relative;}
   .scroll{position:absolute; inset:0; overflow-y:auto; overflow-x:hidden;
@@ -394,20 +392,22 @@ async function load(){
 }
 
 /* ---------------- render ---------------- */
-function navBar(title, {back=false, home=true, onBack=null, backLabel=null}={}){
+/* breadcrumb bar. trail = [{label, action}], last item is the current location. */
+function navBar(trail){
   const n = el('div','nav');
-  if(back) n.appendChild(mkBtn((backLabel||'&#9660; Team'),'', onBack||(()=>go(POSN.col,0))));
-  else n.appendChild(el('div','spacer'));
-  n.appendChild(el('div','title', title));
-  if(home) n.appendChild(mkBtn('&#8962; Home','home', goHome));
-  else n.appendChild(el('div','spacer'));
+  trail.forEach((c, idx)=>{
+    if(idx>0) n.appendChild(el('span','sep','&#8250;'));
+    const cur = idx===trail.length-1;
+    const seg = el('span','crumb'+(cur?' cur':'')+(c.home?' hm':''), c.label);
+    if(!cur && c.action) seg.addEventListener('click', e=>{ e.stopPropagation(); c.action(); });
+    n.appendChild(seg);
+  });
   return n;
 }
-function mkBtn(label,extra,fn){
-  const b = el('div','btn '+extra, label);
-  b.addEventListener('click', e=>{ e.stopPropagation(); fn(); });
-  return b;
-}
+// crumb builders. "team" crumb returns to the team's main card from wherever we are.
+const toTeamMain = ()=>{ if(cur().kind==='teams') go(POSN.col, 0); else ascendToTeam(); };
+const cHome = ()=>({label:'&#8962;', action:goHome, home:true});
+const cTeam = (t)=>({label:t.code, action:toTeamMain});
 
 function colEl(i, main, up, down){
   const c = el('div','col'); c.style.left = `calc(var(--W) * ${i})`;
@@ -435,7 +435,7 @@ function render(){
 
 function homeCard(){
   const card = el('div','card main');
-  card.appendChild(navBar('World Cup 2026', {home:false}));
+  card.appendChild(navBar([{label:'&#8962; World Cup 2026', home:true}]));
   const s = el('div','body'); const sc = el('div','scroll');
   const hero = el('div','hero');
   hero.appendChild(el('div','kicker','Swipe Edition'));
@@ -462,7 +462,7 @@ function homeCard(){
 
 function mainCard(t,i){
   const card = el('div','card main');
-  card.appendChild(navBar(t.name));
+  card.appendChild(navBar([cHome(), {label:t.name}]));
   const body = el('div','body');
   const sc = el('div','scroll'); sc.style.paddingTop='26px';
   const fw = el('div','flagwrap');
@@ -536,7 +536,7 @@ function matchList(t, onPick){
 /* UP extension of a team (teams level): tap a match drills in. */
 function matchesCard(t){
   const card = el('div','card up');
-  card.appendChild(navBar('Matches · '+t.code, {back:true}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Matches'}]));
   const body = el('div','body');
   const sc = matchList(t, i=>enterMatches(t, i));
   sc.insertBefore(el('div','lead','Matches of '+t.name+' — tap one, or swipe right to browse them.'), sc.firstChild);
@@ -546,7 +546,7 @@ function matchesCard(t){
 /* col 0 of a matches level = the same list acting as this level's home. */
 function matchesHomeCard(t){
   const card = el('div','card main');
-  card.appendChild(navBar('Matches · '+t.code, {back:true, backLabel:'&#9660; Team', onBack:ascendToTeam}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Matches'}]));
   const body = el('div','body');
   const sc = matchList(t, i=>go(i+1, 0));
   sc.insertBefore(el('div','lead','Matches of '+t.name+' — tap one, or swipe right to browse.'), sc.firstChild);
@@ -556,7 +556,7 @@ function matchesHomeCard(t){
 /* an item (main card) of the matches level = one match, full detail. */
 function matchCard(t, m, i){
   const card = el('div','card main');
-  card.appendChild(navBar(m.round, {back:true, backLabel:'&#9664; Matches', onBack:()=>go(0,0)}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Matches', action:()=>go(0,0)}, {label:m.stage}]));
   const body = el('div','body'); const sc = el('div','scroll'); sc.style.paddingTop='22px';
   const col = m.res==='W'?'var(--win)':m.res==='L'?'var(--loss)':'var(--draw)';
 
@@ -636,7 +636,7 @@ function squadList(t, onPick){
 /* DOWN extension of a team (teams level): tapping a player drills in. */
 function playersCard(t){
   const card = el('div','card down');
-  card.appendChild(navBar('Squad · '+t.code, {back:true}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Squad'}]));
   const body = el('div','body');
   const sc = squadList(t, i=>enterPlayers(t, i));
   sc.insertBefore(el('div','lead','Squad of '+t.name+' — tap a player, or swipe right to browse them.'), sc.firstChild);
@@ -647,7 +647,7 @@ function playersCard(t){
 /* col 0 of a players level = the same squad list acting as this list's home. */
 function playersHomeCard(t){
   const card = el('div','card main');
-  card.appendChild(navBar('Squad · '+t.code, {back:true, backLabel:'&#9650; Team', onBack:ascendToTeam}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Squad'}]));
   const body = el('div','body');
   const sc = squadList(t, i=>go(i+1, 0));   // stay in this level, jump to the player column
   sc.insertBefore(el('div','lead','Squad of '+t.name+' — tap a player, or swipe right to browse.'), sc.firstChild);
@@ -658,7 +658,7 @@ function playersHomeCard(t){
 /* an item (main card) of the players level = one player's profile. */
 function playerCard(t, pl, i){
   const card = el('div','card main');
-  card.appendChild(navBar(pl.name, {back:true, backLabel:'&#9660; Squad', onBack:()=>go(0,0)}));
+  card.appendChild(navBar([cHome(), cTeam(t), {label:'Squad', action:()=>go(0,0)}, {label:pl.name}]));
   const body = el('div','body'); const sc = el('div','scroll'); sc.style.paddingTop='24px';
 
   const head = el('div','flagwrap');
